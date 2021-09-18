@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.citymanager.Secretariat.enums.Folder;
+import com.citymanager.Secretariat.enums.FolderEnum;
 
 import lombok.Data;
 
@@ -23,7 +23,7 @@ public class SecretariatEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private Folder folder;
+    private FolderEnum folder;
 
     private String secretary;
 
@@ -31,6 +31,6 @@ public class SecretariatEntity {
     private Float populationGrade;
 
     @Column(name = "under_investigation")
-    private Float underInvestigation;
+    private Boolean underInvestigation;
     
 }

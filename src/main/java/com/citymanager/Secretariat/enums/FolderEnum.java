@@ -1,6 +1,6 @@
 package com.citymanager.Secretariat.enums;
 
-public enum Folder {
+public enum FolderEnum {
 
     HEALTH("HEALTH"), 
     EDUCATION("EDUCATION"), 
@@ -9,7 +9,7 @@ public enum Folder {
 
     private final String value;
 
-    private Folder(String value) {
+    private FolderEnum(String value) {
         this.value = value;
     }
 
