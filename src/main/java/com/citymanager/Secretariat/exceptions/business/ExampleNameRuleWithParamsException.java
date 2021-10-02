@@ -8,6 +8,7 @@ import java.util.Map;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class ExampleNameRuleWithParamsException extends BaseRuntimeException {
+
     private static final String KEY = "example.name.rule.with.params";
 
     public ExampleNameRuleWithParamsException(String value) {

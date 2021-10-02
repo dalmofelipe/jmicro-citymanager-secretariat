@@ -1,17 +1,14 @@
 package com.citymanager.Secretariat.controllers;
 
-import java.util.List;
-
-import com.citymanager.Secretariat.dtos.InvertigatedDTO;
 import com.citymanager.Secretariat.dtos.CreateSecretariatDTO;
+import com.citymanager.Secretariat.dtos.InvertigatedDTO;
 import com.citymanager.Secretariat.entities.SecretariatEntity;
 import com.citymanager.Secretariat.services.SecretariatService;
-
+import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import lombok.AllArgsConstructor;
-
-import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/secretariats")
@@ -22,7 +19,7 @@ public class SecretariatController {
 
     // Cria uma secretaria, validando se já existe uma com a mesma pasta e os demais campos que não devem ser nulos ou brancos.
     @PostMapping
-    public SecretariatEntity create(@Valid @RequestBody CreateSecretariatDTO createSecretariatDto) {
+    public SecretariatEntity create(@Validated @RequestBody CreateSecretariatDTO createSecretariatDto) {
         return secretariatService.create(createSecretariatDto);
     }
 
@@ -40,7 +37,7 @@ public class SecretariatController {
 
     // Altera o atributo underInvestigation.
     @PatchMapping("/{id}/investigation")
-    public void changeInvestigation(@Valid @RequestBody InvertigatedDTO invertigatedDTO, @PathVariable Long id) {
+    public void changeInvestigation(@Validated @RequestBody InvertigatedDTO invertigatedDTO, @PathVariable Long id) {
         secretariatService.changeInvestigation(invertigatedDTO, id);
     }
 

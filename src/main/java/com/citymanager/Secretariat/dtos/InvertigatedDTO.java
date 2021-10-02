@@ -7,6 +7,6 @@ import javax.validation.constraints.NotNull;
 @Data
 public class InvertigatedDTO {
 
-    @NotNull
+    @NotNull(message = "O campo 'underInvestigation' é obrigatório!")
     private Boolean underInvestigation;
 }

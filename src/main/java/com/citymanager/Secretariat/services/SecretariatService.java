@@ -7,6 +7,7 @@ import com.citymanager.Secretariat.enums.FolderEnum;
 import com.citymanager.Secretariat.repositories.SecretariatRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +22,15 @@ public class SecretariatService {
 
     public SecretariatEntity create(CreateSecretariatDTO createSecretariatDto) {
 
-        if(createSecretariatDto == null) return null; // TODO: exception dados de entrada inválidos
+        FolderEnum folder = createSecretariatDto.getFolder();
 
-        FolderEnum folderDto = createSecretariatDto.getFolder();
+        Optional<FolderEnum> folderEnumOpt = Arrays.stream(FolderEnum.values())
+                .filter(f -> f.getValue().equals(folder.getValue()))
+                .findFirst();
 
-        SecretariatEntity secretariat = secretariatRepository.findByFolder(folderDto);
+        if(folderEnumOpt.isEmpty()) return null; // TODO: uma exception para exibir um aviso das Folder diponiveis ?
+
+        SecretariatEntity secretariat = secretariatRepository.findByFolder(folder);
 
         if(secretariat != null) return null; // TODO: exception ja possui secretaria cadastrada
 
