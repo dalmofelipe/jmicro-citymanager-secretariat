@@ -4,10 +4,11 @@ import com.citymanager.Secretariat.dtos.CreateSecretariatDTO;
 import com.citymanager.Secretariat.dtos.InvertigatedDTO;
 import com.citymanager.Secretariat.entities.SecretariatEntity;
 import com.citymanager.Secretariat.enums.FolderEnum;
+import com.citymanager.Secretariat.exceptions.business.SecretariatAlreadyExistsException;
+import com.citymanager.Secretariat.exceptions.business.SecretariatNotFoundException;
 import com.citymanager.Secretariat.repositories.SecretariatRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,16 +24,9 @@ public class SecretariatService {
     public SecretariatEntity create(CreateSecretariatDTO createSecretariatDto) {
 
         FolderEnum folder = createSecretariatDto.getFolder();
-
-        Optional<FolderEnum> folderEnumOpt = Arrays.stream(FolderEnum.values())
-                .filter(f -> f.getValue().equals(folder.getValue()))
-                .findFirst();
-
-        if(folderEnumOpt.isEmpty()) return null; // TODO: uma exception para exibir um aviso das Folder diponiveis ?
-
         SecretariatEntity secretariat = secretariatRepository.findByFolder(folder);
 
-        if(secretariat != null) return null; // TODO: exception ja possui secretaria cadastrada
+        if(secretariat != null) throw new SecretariatAlreadyExistsException(folder.getValue());
 
         return secretariatRepository.save(createSecretariatDto.toEntity());
     }
@@ -45,18 +39,16 @@ public class SecretariatService {
 
         Optional<SecretariatEntity> secretariatOpt = secretariatRepository.findById(id);
 
-        if(secretariatOpt.isEmpty()) return null; // TODO: exception notfound secretariat
+        if(secretariatOpt.isEmpty()) throw new SecretariatNotFoundException();
 
         return secretariatOpt.get();
     }
 
     public void changeInvestigation(InvertigatedDTO invertigatedDTO, Long id) {
 
-        if(invertigatedDTO == null) return; // TODO: exception objeto inválido! Envie um boolean
-
         Optional<SecretariatEntity> secretariatOpt = secretariatRepository.findById(id);
 
-        if(secretariatOpt.isEmpty()) return; // TODO: exception secretaria notfound
+        if(secretariatOpt.isEmpty()) throw new SecretariatNotFoundException();
 
         Boolean investigated = invertigatedDTO.getUnderInvestigation();
         SecretariatEntity secretariat = secretariatOpt.get();
